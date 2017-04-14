@@ -20,18 +20,7 @@ module.exports = {
     })
     newQuestion.save(function(err,result) {
       if(!err) {
-        user.findByIdAndUpdate(result.user, {
-          $push: {
-            questions: result._id
-          }
-        }, {'new': true}, function(err){
-          if(!err) {
-            res.send('update berhasil')
-          } else {
-            res.send(err)
-          }
-        })
-
+        res.send({success: true, msg:'insert question success'})
       } else {
         res.send(err)
       }
@@ -51,7 +40,6 @@ module.exports = {
       '_id': req.params.id
     }, function(err, result) {
       if (!err) {
-
         let statusAda = result.upVotes.some(x => x == req.body.user)
         if(statusAda) {
           res.send('user sudah pernah vote')
@@ -72,6 +60,58 @@ module.exports = {
         }
       } else {
         res.send(err)
+      }
+    })
+  },
+  downvoteQuestion: function(req, res) {
+    question.findOne({
+      '_id': req.params.id
+    }, function(err, result) {
+      if (!err) {
+
+        let statusAda = result.downVotes.some(x => x == req.body.user)
+        if(statusAda) {
+          res.send('user sudah pernah vote')
+        } else {
+          question.findOneAndUpdate({
+            '_id': req.params.id
+          },{
+            '$push':{
+              'downVotes': req.body.user
+            }
+          },function(err){
+            if(!err){
+              res.send({success: true, msg:'downvote berhasil!'});
+            } else {
+              res.send({success: false, msg:err});
+            }
+          })
+        }
+      } else {
+        res.send(err)
+      }
+    })
+  },
+  getOneQuestion: function(req, res) {
+    question.findOne({_id: req.params.id}, function(err,result) {
+      if(!err) {
+        res.send({success:true, msg:'success' ,data:result})
+      } else {
+        res.send({success:false, msg:'failed to get data', data:null})
+      }
+    })
+  },
+  editQuestion: function(req, res) {
+    question.findByIdAndUpdate(req.params.id, {
+      $set: {
+        title: req.body.title,
+        content: req.body.content
+      }
+    }, function(err) {
+      if(!err) {
+        res.send({success:true, msg:'success'})
+      } else {
+        res.send({success:true, msg:err})
       }
     })
   }

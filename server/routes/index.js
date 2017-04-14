@@ -1,7 +1,6 @@
-let routes = require('express').Router();
+let routes = require('express').Router(),
+    user = require('../controllers/userController')
 
-routes.get('/', function(req, res) {
-  res.send('waddup dude')
-})
+routes.post('/login', user.login)
 
 module.exports = routes;

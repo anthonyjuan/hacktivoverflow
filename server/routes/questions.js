@@ -1,25 +1,33 @@
 let routes = require('express').Router(),
     controlQ = require('../controllers/questionController'),
-    controlA = require('../controllers/answerController')
+    controlA = require('../controllers/answerController'),
+    auth = require('../helpers/authHelp')
 
-routes.get('/',controlQ.getQuestion)
+//get all
+routes.get('/',auth.verify,controlQ.getQuestion)
+
+//get one
+routes.get('/:id',auth.verify,controlQ.getOneQuestion)
 
 //post new question
-routes.post('/',controlQ.postQuestion)
+routes.post('/',auth.verify,controlQ.postQuestion)
 
 //delete question
-routes.delete('/:id',controlQ.deleteQuestion)
+routes.delete('/:id',auth.verify,controlQ.deleteQuestion)
 
 //post new answer
-routes.put('/answers/:id',controlA.postAnswer)
+routes.put('/answers/:id',auth.verify,controlA.postAnswer)
 
 //upvote
-routes.put('/answers/upvotes/:id', controlA.upvoteAnswer)
-routes.put('/upvotes/:id', controlQ.upvoteQuestion)
+routes.put('/answers/upvotes/:id', auth.verify,controlA.upvoteAnswer)
+routes.put('/upvotes/:id', auth.verify,controlQ.upvoteQuestion)
 
 //downvote
-routes.put('/answers/upvotes/:id', controlA.downvoteAnswer)
-// routes.put('/upvotes/:id', controlQ.downvoteQuestion)
+routes.put('/answers/upvotes/:id',auth.verify, controlA.downvoteAnswer)
+routes.put('/upvotes/:id',auth.verify, controlQ.downvoteQuestion)
+
+//edit
+routes.put('/:id',auth.verify,controlQ.editQuestion)
 
 
 module.exports = routes;

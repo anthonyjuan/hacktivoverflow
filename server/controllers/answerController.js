@@ -3,7 +3,6 @@ let question = require('../models/question'),
 
 module.exports = {
   postAnswer: function(req, res) {
-
     question.findByIdAndUpdate(req.params.id, {
       $push: {
         answers: req.body
@@ -93,5 +92,8 @@ module.exports = {
     //     res.send(err);
     //   }
     // })
+  },
+  deleteAnswer: function(req, res) {
+
   }
 };
