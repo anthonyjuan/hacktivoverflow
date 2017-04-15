@@ -4,12 +4,14 @@ let express = require('express'),
     questions = require('./routes/questions'),
     monggo = require('mongoose'),
     bodyPars = require('body-parser'),
+    cors = require('cors'),
     app = express()
 
 
 
 app.use(bodyPars.json())
 app.use(bodyPars.urlencoded({extended:false}))
+app.use(cors());
 
 app.use('/',index);
 app.use('/users',users);

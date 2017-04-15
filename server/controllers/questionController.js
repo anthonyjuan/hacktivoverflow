@@ -40,23 +40,52 @@ module.exports = {
       '_id': req.params.id
     }, function(err, result) {
       if (!err) {
-        let statusAda = result.upVotes.some(x => x == req.body.user)
-        if(statusAda) {
+        let statusAdaDiUpVotes = result.upVotes.some(x => x == req.body.user)
+        let statusAdaDiDownVotes = result.downVotes.some(x => x == req.body.user)
+        if(statusAdaDiUpVotes) {
           res.send('user sudah pernah vote')
         } else {
-          question.findOneAndUpdate({
-            '_id': req.params.id
-          },{
-            '$push':{
-              'upVotes': req.body.user
-            }
-          },function(err){
-            if(!err){
-              res.send('upvote berhasil!');
-            } else {
-              res.send(err);
-            }
-          })
+          if (statusAdaDiDownVotes) {
+            question.update({
+              '_id': req.params.id
+            },{
+              '$pullAll':{
+                'downVotes': [req.body.user]
+              }
+            },function(err){
+              if(!err){
+                question.findOneAndUpdate({
+                  '_id': req.params.id
+                },{
+                  '$push':{
+                    'upVotes': req.body.user
+                  }
+                },function(err){
+                  if(!err){
+                    res.send('upvote berhasil!');
+                  } else {
+                    res.send(err);
+                  }
+                })
+              } else {
+                res.send(err);
+              }
+            })
+          } else {
+            question.findOneAndUpdate({
+              '_id': req.params.id
+            },{
+              '$push':{
+                'upVotes': req.body.user
+              }
+            },function(err){
+              if(!err){
+                res.send('upvote berhasil!');
+              } else {
+                res.send(err);
+              }
+            })
+          }
         }
       } else {
         res.send(err)
@@ -69,23 +98,52 @@ module.exports = {
     }, function(err, result) {
       if (!err) {
 
-        let statusAda = result.downVotes.some(x => x == req.body.user)
-        if(statusAda) {
+        let statusAdaDiUpVotes = result.upVotes.some(x => x == req.body.user)
+        let statusAdaDiDownVotes = result.downVotes.some(x => x == req.body.user)
+        if(statusAdaDiDownVotes) {
           res.send('user sudah pernah vote')
         } else {
-          question.findOneAndUpdate({
-            '_id': req.params.id
-          },{
-            '$push':{
-              'downVotes': req.body.user
-            }
-          },function(err){
-            if(!err){
-              res.send({success: true, msg:'downvote berhasil!'});
-            } else {
-              res.send({success: false, msg:err});
-            }
-          })
+          if(statusAdaDiUpVotes) {
+            question.update({
+              '_id': req.params.id
+            },{
+              '$pullAll':{
+                'upVotes': [req.body.user]
+              }
+            },function(err){
+              if(!err){
+                question.findOneAndUpdate({
+                  '_id': req.params.id
+                },{
+                  '$push':{
+                    'downVotes': req.body.user
+                  }
+                },function(err){
+                  if(!err){
+                    res.send('downvote berhasil!');
+                  } else {
+                    res.send(err);
+                  }
+                })
+              } else {
+                res.send(err);
+              }
+            })
+          }else {
+            question.findOneAndUpdate({
+              '_id': req.params.id
+            },{
+              '$push':{
+                'downVotes': req.body.user
+              }
+            },function(err){
+              if(!err){
+                res.send({success: true, msg:'downvote berhasil!'});
+              } else {
+                res.send({success: false, msg:err});
+              }
+            })
+          }
         }
       } else {
         res.send(err)

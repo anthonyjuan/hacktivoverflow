@@ -12,13 +12,13 @@ module.exports = {
     })
   },
   login: function(req, res) {
-    User.findOne({username:req.body.username}, function(err,data) {
+    User.findOne({'username':req.body.username}, function(err,data) {
       if(err || data == null ) {
         res.send({success:false, msg:err})
       } else {
         if(pwh.verify(req.body.password,data.password)) {
-          let token = jwt.sign({username: data.username}, process.env.SECRET_KEY)
-          res.send(token)
+          let newToken = jwt.sign({username: data.username}, process.env.SECRET_KEY)
+          res.send({success: true, msg:'login success', token:newToken})
         } else {
           res.send('Wrong Password')
         }
@@ -38,5 +38,8 @@ module.exports = {
         res.send(err)
       }
     })
+  },
+  logout: function(req, res) {
+    res.send('logout sukses')
   }
 };

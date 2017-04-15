@@ -22,27 +22,59 @@ module.exports = {
     },{'answers.$': 1}, function(err, result) {
       if (!err) {
         // res.send(result)
-        let statusAda = result.answers[0].upVotes.some(x => x == req.body.user)
-        if(statusAda) {
+        let statusAdaDiUpVotes = result.answers[0].upVotes.some(x => x == req.body.user)
+        let statusAdaDiDownVotes = result.answers[0].downVotes.some(x => x == req.body.user)
+        if(statusAdaDiUpVotes) {
           res.send('user sudah pernah vote')
         } else {
-          question.findOneAndUpdate({
-            '_id': req.params.id,
-            'answers._id' : req.body.answer
-          },{
-            '$push':{
-              'answers.$.upVotes': req.body.user
-            }
-          },function(err){
-            if(!err){
-              res.send('upvote berhasil!');
-            } else {
-              res.send(err);
-            }
-          })
+          if(statusAdaDiDownVotes) {
+            question.update({
+              '_id': req.params.id,
+              'answers._id' : req.body.answer
+            },{
+              '$pullAll':{
+                'answers.$.downVotes': [req.body.user]
+              }
+            },function(err){
+              if(!err){
+                question.findOneAndUpdate({
+                  '_id': req.params.id,
+                  'answers._id' : req.body.answer
+                },{
+                  '$push':{
+                    'answers.$.upVotes': req.body.user
+                  }
+                },function(err){
+                  if(!err){
+                    res.send({succes: true, msg:'upvote berhasil!'});
+                  } else {
+                    res.send({succes: false, msg:err});
+                  }
+                })
+              } else {
+                res.send({succes: false, msg:err});
+              }
+            })
+
+          } else {
+            question.findOneAndUpdate({
+              '_id': req.params.id,
+              'answers._id' : req.body.answer
+            },{
+              '$push':{
+                'answers.$.upVotes': req.body.user
+              }
+            },function(err){
+              if(!err){
+                res.send({succes: true, msg:'upvote berhasil!'});
+              } else {
+                res.send({succes: false, msg:err});
+              }
+            })
+          }
         }
       } else {
-        res.send(err)
+        res.send({succes: false, msg:err})
       }
     })
   },
@@ -53,45 +85,63 @@ module.exports = {
     },{'answers.$': 1}, function(err, result) {
       if (!err) {
 
-        let statusAda = result.answers[0].downVotes.some(x => x == req.body.user)
+        let statusAdaDiUpVotes = result.answers[0].upVotes.some(x => x == req.body.user)
+        let statusAdaDiDownVotes = result.answers[0].downVotes.some(x => x == req.body.user)
 
-        if(statusAda) {
+        if(statusAdaDiDownVotes) {
           res.send('user sudah pernah vote')
         } else {
-          question.findOneAndUpdate({
-            '_id': req.params.id,
-            'answers._id' : req.body.answer
-          },{
-            '$push':{
-              'answers.$.downVotes': req.body.user
-            }
-          },function(err){
-            if(!err){
-              res.send('upvote berhasil!');
-            } else {
-              res.send(err);
-            }
-          })
+          if(statusAdaDiUpVotes) {
+            question.update({
+              '_id': req.params.id,
+              'answers._id' : req.body.answer
+            },{
+              '$pullAll':{
+                'answers.$.upVotes': [req.body.user]
+              }
+            },function(err){
+              if(!err){
+                question.findOneAndUpdate({
+                  '_id': req.params.id,
+                  'answers._id' : req.body.answer
+                },{
+                  '$push':{
+                    'answers.$.downVotes': req.body.user
+                  }
+                },function(err){
+                  if(!err){
+                    res.send({succes: true, msg:'downvote berhasil!'});
+                  } else {
+                    res.send({succes: false, msg:err});
+                  }
+                })
+              } else {
+                res.send({succes: false, msg:err});
+              }
+            })
+          } else {
+            question.findOneAndUpdate({
+              '_id': req.params.id,
+              'answers._id' : req.body.answer
+            },{
+              '$push':{
+                'answers.$.downVotes': req.body.user
+              }
+            },function(err){
+              if(!err){
+                res.send({succes: true, msg:'downvote berhasil!'});
+              } else {
+                res.send({succes: false, msg:err});
+              }
+            })
+          }
+
         }
-        // res.send(result.answers)
+
       } else {
         res.send(err)
       }
     })
-    // question.findOneAndUpdate({
-    //   '_id': req.params.id,
-    //   'answers._id' : req.body.answer
-    // },{
-    //   '$push':{
-    //     'answers.$.downVotes': req.body.user
-    //   }
-    // },function(err){
-    //   if(!err){
-    //     res.send('upvote berhasil!');
-    //   } else {
-    //     res.send(err);
-    //   }
-    // })
   },
   deleteAnswer: function(req, res) {
 
