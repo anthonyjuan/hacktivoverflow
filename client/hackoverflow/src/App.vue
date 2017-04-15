@@ -3,7 +3,7 @@
     <!-- <img src="./assets/logo.png"> -->
     <app-nav :statusLogin="statusLogin"></app-nav>
 
-    <router-view class="tampil-router"></router-view>
+    <router-view :statusLogin="statusLogin" class="tampil-router"></router-view>
 
     <!-- <manage-products></manage-products> -->
   </div>
@@ -36,10 +36,10 @@ export default {
 <style>
 #app {
 
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  font-family: 'Lato','Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
+  /*text-align: center;*/
   color: #2c3e50;
   /*margin-top: 60px;*/
 }

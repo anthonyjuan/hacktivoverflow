@@ -2,9 +2,9 @@ let monggo = require('mongoose'),
     Schema = monggo.Schema;
 
 let userSchema = new Schema({
-  username: {type:String, required:true, unique: true},
+  username: {type:String,unique: true, required:true},
   password: {type:String, required:true},
-  token: [{type:String}]
+  createdAt: {type:Date, default: Date.now}
 })
 
 let User = monggo.model('User', userSchema)

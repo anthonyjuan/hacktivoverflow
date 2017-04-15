@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import Hello from '@/components/Hello'
 import QuestionList from '@/components/QuestionList'
 import LoginPage from '@/components/LoginPage'
+import SignUp from '@/components/SignUp'
 import ProductCatalog from '@/components/ProductCatalog'
 import ManageProducts from '@/components/ManageProducts'
 
@@ -26,6 +27,10 @@ export default new Router({
     {
       path: '/login',
       component: LoginPage
+    },
+    {
+      path: '/signup',
+      component: SignUp
     }
   ]
 })

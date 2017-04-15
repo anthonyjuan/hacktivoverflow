@@ -1,7 +1,7 @@
 <template lang="html">
   <div class="animated fadeIn">
-    <h1>Login</h1>
     <el-row >
+      <h1>Login</h1>
       <div class="form">
         <el-form label-width="120px" class="demo-ruleForm">
           <el-form-item label="Username" prop="username">
@@ -36,12 +36,24 @@ export default {
         password: self.user.password
       })
       .then((res) => {
-        window.localStorage.setItem('token', res.data.token);
-        window.location.reload();
+        if(res.data.success) {
+          window.localStorage.setItem('token', res.data.token);
+          window.location.reload();
+        } else {
+          self.showError(res.data.msg)
+        }
+
       })
       .catch((err) => {
         console.log(err);
       })
+    },
+    showError(msg) {
+      this.$message({
+        showClose: true,
+        message: msg,
+        type: 'error'
+      });
     }
   },
   mounted() {
@@ -52,7 +64,11 @@ export default {
 }
 </script>
 
-<style lang="css">
+<style lang="css" scoped>
+  h1 {
+    text-align: center;
+  }
+
   .btn-login {
     float: right;
   }

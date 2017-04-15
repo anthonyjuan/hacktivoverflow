@@ -12,15 +12,15 @@ module.exports = {
     })
   },
   login: function(req, res) {
-    User.findOne({'username':req.body.username}, function(err,data) {
-      if(err || data == null ) {
-        res.send({success:false, msg:err})
+    User.findOne({'username':req.body.username}, function(err,user) {
+      if(err || user == null ) {
+        res.send({success:false, msg:'username not found'})
       } else {
-        if(pwh.verify(req.body.password,data.password)) {
-          let newToken = jwt.sign({username: data.username}, process.env.SECRET_KEY)
+        if(pwh.verify(req.body.password,user.password)) {
+          let newToken = jwt.sign({username: user.username}, process.env.SECRET_KEY)
           res.send({success: true, msg:'login success', token:newToken})
         } else {
-          res.send('Wrong Password')
+          res.send({success: false, msg:'Wrong Password'})
         }
       }
     })
@@ -31,11 +31,12 @@ module.exports = {
       password: pwh.generate(req.body.password)
     })
 
-    newUser.save(function(err) {
+    newUser.save(function(err,user) {
       if(!err) {
-        res.send('User baru telah dibuat')
+        let newToken = jwt.sign({username: user.username}, process.env.SECRET_KEY)
+        res.send({success: true, msg:'create user success', token:newToken})
       } else {
-        res.send(err)
+        res.send({success: false, msg:err})
       }
     })
   },
