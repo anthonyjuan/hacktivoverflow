@@ -43,7 +43,7 @@ module.exports = {
         let statusAdaDiUpVotes = result.upVotes.some(x => x == req.body.user)
         let statusAdaDiDownVotes = result.downVotes.some(x => x == req.body.user)
         if(statusAdaDiUpVotes) {
-          res.send('user sudah pernah vote')
+          res.send({success: false, msg:'user sudah pernah vote'})
         } else {
           if (statusAdaDiDownVotes) {
             question.update({
@@ -62,13 +62,13 @@ module.exports = {
                   }
                 },function(err){
                   if(!err){
-                    res.send('upvote berhasil!');
+                    res.send({success: true, msg:'upvote berhasil!'});
                   } else {
-                    res.send(err);
+                    res.send({success: false, msg:err});
                   }
                 })
               } else {
-                res.send(err);
+                res.send({success: false, msg:err});
               }
             })
           } else {
@@ -80,15 +80,15 @@ module.exports = {
               }
             },function(err){
               if(!err){
-                res.send('upvote berhasil!');
+                res.send({success: true, msg:'upvote berhasil!'});
               } else {
-                res.send(err);
+                res.send({success: false, msg:err});
               }
             })
           }
         }
       } else {
-        res.send(err)
+        res.send({success: false, msg:err})
       }
     })
   },
@@ -120,13 +120,13 @@ module.exports = {
                   }
                 },function(err){
                   if(!err){
-                    res.send('downvote berhasil!');
+                    res.send({success: true, msg:'downvote berhasil!'});
                   } else {
-                    res.send(err);
+                    res.send({success: false, msg:err});
                   }
                 })
               } else {
-                res.send(err);
+                res.send({success: false, msg:err});
               }
             })
           }else {
@@ -146,18 +146,20 @@ module.exports = {
           }
         }
       } else {
-        res.send(err)
+        res.send({success: false, msg:err})
       }
     })
   },
   getOneQuestion: function(req, res) {
-    question.findOne({_id: req.params.id}, function(err,result) {
-      if(!err) {
-        res.send({success:true, msg:'success' ,data:result})
-      } else {
-        res.send({success:false, msg:'failed to get data', data:null})
-      }
-    })
+    question.findOne({_id: req.params.id})
+            .populate('user answers.user')
+            .exec(function(err,result) {
+              if(!err) {
+                res.send({success:true, msg:'success' ,data:result})
+              } else {
+                res.send({success:false, msg:'failed to get data', data:null})
+              }
+            })
   },
   editQuestion: function(req, res) {
     question.findByIdAndUpdate(req.params.id, {

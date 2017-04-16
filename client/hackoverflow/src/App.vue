@@ -1,18 +1,15 @@
 <template>
   <div id="app">
-    <!-- <img src="./assets/logo.png"> -->
-    <app-nav :statusLogin="statusLogin"></app-nav>
 
+    <app-nav :statusLogin="statusLogin"></app-nav>
     <router-view :statusLogin="statusLogin" class="tampil-router"></router-view>
 
-    <!-- <manage-products></manage-products> -->
   </div>
 </template>
 
 <script>
-// import ProductList from './components/ProductList';
 import AppNav from './components/AppNav';
-// import ManageProducts from './components/ManageProducts';
+
 
 export default {
   data() {

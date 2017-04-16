@@ -16,7 +16,7 @@ routes.post('/',auth.verify,controlQ.postQuestion)
 routes.delete('/:id',auth.verify,controlQ.deleteQuestion)
 
 //post new answer
-routes.put('/answers/:id',auth.verify,controlA.postAnswer)
+routes.post('/answers/:id',auth.verify,controlA.postAnswer)
 
 //upvote
 routes.put('/answers/upvotes/:id', auth.verify,controlA.upvoteAnswer)

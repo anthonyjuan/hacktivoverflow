@@ -7,11 +7,11 @@ module.exports = {
       $push: {
         answers: req.body
       }
-    }, {'new': true},function(err) {
+    }, {'new': true},function(err,result) {
       if (!err) {
-        res.send('answer berhasil di post')
+        res.send({success: true, msg:result})
       } else {
-        res.send(err);
+        res.send({success: false, msg:err});
       }
     })
   },
@@ -25,7 +25,7 @@ module.exports = {
         let statusAdaDiUpVotes = result.answers[0].upVotes.some(x => x == req.body.user)
         let statusAdaDiDownVotes = result.answers[0].downVotes.some(x => x == req.body.user)
         if(statusAdaDiUpVotes) {
-          res.send('user sudah pernah vote')
+          res.send({success: false, msg:'user sudah pernah vote'})
         } else {
           if(statusAdaDiDownVotes) {
             question.update({
@@ -46,13 +46,13 @@ module.exports = {
                   }
                 },function(err){
                   if(!err){
-                    res.send({succes: true, msg:'upvote berhasil!'});
+                    res.send({success: true, msg:'upvote berhasil!'});
                   } else {
-                    res.send({succes: false, msg:err});
+                    res.send({success: false, msg:err});
                   }
                 })
               } else {
-                res.send({succes: false, msg:err});
+                res.send({success: false, msg:err});
               }
             })
 
@@ -66,15 +66,15 @@ module.exports = {
               }
             },function(err){
               if(!err){
-                res.send({succes: true, msg:'upvote berhasil!'});
+                res.send({success: true, msg:'upvote berhasil!'});
               } else {
-                res.send({succes: false, msg:err});
+                res.send({success: false, msg:err});
               }
             })
           }
         }
       } else {
-        res.send({succes: false, msg:err})
+        res.send({success: false, msg:err})
       }
     })
   },
@@ -89,7 +89,7 @@ module.exports = {
         let statusAdaDiDownVotes = result.answers[0].downVotes.some(x => x == req.body.user)
 
         if(statusAdaDiDownVotes) {
-          res.send('user sudah pernah vote')
+          res.send({success: false, msg:'user sudah pernah vote'})
         } else {
           if(statusAdaDiUpVotes) {
             question.update({
@@ -110,13 +110,13 @@ module.exports = {
                   }
                 },function(err){
                   if(!err){
-                    res.send({succes: true, msg:'downvote berhasil!'});
+                    res.send({success: true, msg:'downvote berhasil!'});
                   } else {
-                    res.send({succes: false, msg:err});
+                    res.send({success: false, msg:err});
                   }
                 })
               } else {
-                res.send({succes: false, msg:err});
+                res.send({success: false, msg:err});
               }
             })
           } else {
@@ -129,9 +129,9 @@ module.exports = {
               }
             },function(err){
               if(!err){
-                res.send({succes: true, msg:'downvote berhasil!'});
+                res.send({success: true, msg:'downvote berhasil!'});
               } else {
-                res.send({succes: false, msg:err});
+                res.send({success: false, msg:err});
               }
             })
           }

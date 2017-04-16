@@ -10,7 +10,7 @@
               <p class="inform">Hacktiv Overflow is a community of 7.0 million programmers, just like you, helping each other. Join them; it only takes a minute:</p>
             </el-col>
             <el-col :span="3">
-              <router-link to="signup"><p><a href="#" class="button">sign up</a></p></router-link>
+              <router-link to="/signup"><p><a href="#" class="button">sign up</a></p></router-link>
             </el-col>
 
           </el-row>
@@ -20,22 +20,24 @@
     <el-row >
       <el-col :span="16" :offset="2" >
           <h1>Top Question</h1>
-          <router-link to="login"><el-button type="primary" v-if="statusLogin == false">Ask Question</el-button></router-link>
-          <el-button type="primary" v-if="statusLogin == true">Ask Question</el-button>
+          <router-link to="/login"><el-button type="primary" v-if="statusLogin == false">Ask Question</el-button></router-link>
+          <router-link to="/questions/ask"><el-button type="primary" v-if="statusLogin == true">Ask Question</el-button></router-link>
           <br>
           <br>
           <el-card class="box-card" v-for="question in questions" :key="question._id">
-            <el-row>
-              <el-col :span="18">
-                <a href="#"><p>{{ question.title }}</p></a>
-              </el-col>
-              <el-col :span="3">
-                <p>Votes : {{question.votes}}</p>
-              </el-col>
-              <el-col :span="3">
-                <p>Answers : {{question.answers}}</p>
-              </el-col>
-            </el-row>
+            <router-link :to="'/questions/'+question._id">
+              <el-row>
+                <el-col :span="18">
+                  <p>{{ question.title }}</p>
+                </el-col>
+                <el-col :span="3">
+                  <p>Votes : {{question.votes}}</p>
+                </el-col>
+                <el-col :span="3">
+                  <p>Answers : {{question.answers}}</p>
+                </el-col>
+              </el-row>
+            </router-link>
           </el-card>
       </el-col>
     </el-row>

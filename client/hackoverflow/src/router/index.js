@@ -4,8 +4,10 @@ import Hello from '@/components/Hello'
 import QuestionList from '@/components/QuestionList'
 import LoginPage from '@/components/LoginPage'
 import SignUp from '@/components/SignUp'
+import AskForm from '@/components/AskForm'
 import ProductCatalog from '@/components/ProductCatalog'
 import ManageProducts from '@/components/ManageProducts'
+import QuestionDetail from '@/components/QuestionDetail'
 
 Vue.use(Router)
 
@@ -31,6 +33,15 @@ export default new Router({
     {
       path: '/signup',
       component: SignUp
+    },
+    {
+      path: '/questions/ask',
+      component: AskForm
+    },
+    {
+      path: '/questions/:id',
+      component: QuestionDetail,
+      props: true
     }
   ]
 })

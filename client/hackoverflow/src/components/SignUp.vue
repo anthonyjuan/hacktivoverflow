@@ -42,6 +42,8 @@ export default {
              .then(function(res) {
                if(res.data.success) {
                   window.localStorage.setItem('token', res.data.token);
+                  window.localStorage.setItem('id', res.data.id);
+
                   window.location.reload();
                } else {
                  self.showError("Username has already been taken")

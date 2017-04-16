@@ -38,6 +38,7 @@ export default {
       .then((res) => {
         if(res.data.success) {
           window.localStorage.setItem('token', res.data.token);
+          window.localStorage.setItem('id', res.data.id);
           window.location.reload();
         } else {
           self.showError(res.data.msg)
