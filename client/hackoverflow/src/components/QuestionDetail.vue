@@ -24,7 +24,7 @@
         <br>
         <el-tabs type="card">
           <el-tab-pane v-if="question.answers.length <= 1" :label="question.answers.length +' Answer'">
-            <el-row>
+            <el-row v-if="question.answers.length == 1">
               <el-col :span="18">
                 <div class="answer" v-if="question.answers.length > 0">
                   <p style="font-size:24px;">{{question.answers[0].post}}</p>
@@ -172,6 +172,8 @@ export default {
             // console.log(res.data);
             if(res.data.success) {
               self.upVote += 1
+            } else {
+              self.notify()
             }
           })
       } else {
@@ -186,10 +188,19 @@ export default {
             // console.log('downvotes jaalan');
             if(res.data.success) {
               self.downVote += 1
+            }else {
+              self.notify()
             }
           })
       }
 
+    },
+    notify() {
+      this.$message({
+        showClose: true,
+        message: 'You already vote',
+        type: 'error'
+      });
     }
   },
   mounted() {

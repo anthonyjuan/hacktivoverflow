@@ -17,7 +17,6 @@ export default {
     logout() {
       localStorage.clear();
       window.location.reload();
-      location.href="/#/";
     }
   }
 }
