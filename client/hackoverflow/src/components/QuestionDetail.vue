@@ -34,8 +34,8 @@
               </el-col>
               <el-col :span="6">
                   <p style="font-size:20px;"><b> Votes : {{question.answers[0].upVotes.length - question.answers[0].downVotes.length}}</b></p>
-                  <el-button v-if="status" :plain="true" type="success" @click="voteAnswer('up',answer._id)">Upvote</el-button>
-                  <el-button v-if="status" :plain="true" type="warning" @click="voteAnswer('down',answer._id)">Downvote</el-button>
+                  <el-button v-if="this.$store.state.statusLogin" :plain="true" type="success" @click="voteAnswer('up',question.answers[0]._id)">Upvote</el-button>
+                  <el-button v-if="this.$store.state.statusLogin" :plain="true" type="warning" @click="voteAnswer('down',question.answers[0]._id)">Downvote</el-button>
               </el-col>
             </el-row>
           </el-tab-pane>
@@ -49,8 +49,8 @@
                 </el-col>
                 <el-col :span="6">
                   <p style="font-size:20px;"><b> Votes : {{answer.upVotes.length - answer.downVotes.length}}</b></p>
-                  <el-button v-if="status" :plain="true" type="success" @click="voteAnswer('up',answer._id)">Upvote</el-button>
-                  <el-button v-if="status" :plain="true" type="warning" @click="voteAnswer('down',answer._id)">Downvote</el-button>
+                  <el-button v-if="this.$store.state.statusLogin" :plain="true" type="success" @click="voteAnswer('up',answer._id)">Upvote</el-button>
+                  <el-button v-if="this.$store.state.statusLogin" :plain="true" type="warning" @click="voteAnswer('down',answer._id)">Downvote</el-button>
                 </el-col>
               </el-row>
 
@@ -142,11 +142,12 @@ export default {
 
       if(stat == 'up') {
         axios.put(
-          `http://localhost:3000/questions/answers/upvotes/${this.id}`,
+          `http://localhost:3000/questions/answers/upvotes/${self.id}`,
           vote,
           {headers: {'token': window.localStorage.getItem('token')}})
           .then(function(res) {
             if(res.data.success) {
+              // console.log('jancok');
               location.reload()
             }
           })

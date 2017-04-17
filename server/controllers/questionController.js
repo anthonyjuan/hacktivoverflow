@@ -171,7 +171,7 @@ module.exports = {
       if(!err) {
         res.send({success:true, msg:'success'})
       } else {
-        res.send({success:true, msg:err})
+        res.send({success:false, msg:err})
       }
     })
   },

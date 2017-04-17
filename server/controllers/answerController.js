@@ -21,7 +21,6 @@ module.exports = {
       'answers._id': req.body.answer
     },{'answers.$': 1}, function(err, result) {
       if (!err) {
-        // res.send(result)
         let statusAdaDiUpVotes = result.answers[0].upVotes.some(x => x == req.body.user)
         let statusAdaDiDownVotes = result.answers[0].downVotes.some(x => x == req.body.user)
         if(statusAdaDiUpVotes) {
