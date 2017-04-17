@@ -2,8 +2,8 @@
   <el-row v-if="question !== null">
     <el-col :span="16" :offset="2">
         <h1>{{question.title}}</h1>
-        <router-link to="/login"><el-button type="primary" v-if="statusLogin == false">Ask Question</el-button></router-link>
-        <router-link to="/questions/ask"><el-button type="primary" v-if="statusLogin == true">Ask Question</el-button></router-link>
+        <router-link to="/login"><el-button type="primary" v-if="status == false">Ask Question</el-button></router-link>
+        <router-link to="/questions/ask"><el-button type="primary" v-if="status == true">Ask Question</el-button></router-link>
         <br>
         <br>
         <el-card class="box-card">
@@ -15,8 +15,8 @@
               </el-col>
               <el-col :span="6">
                 <p><b style="font-size:20px">Votes: {{ upVote - downVote }}</b></p>
-                <el-button v-if="statusLogin" :plain="true" type="success" @click="voteQuestion('up')">Upvote</el-button>
-                <el-button v-if="statusLogin" :plain="true" type="warning" @click="voteQuestion('down')">Downvote</el-button>
+                <el-button v-if="status" :plain="true" type="success" @click="voteQuestion('up')">Upvote</el-button>
+                <el-button v-if="status" :plain="true" type="warning" @click="voteQuestion('down')">Downvote</el-button>
               </el-col>
 
             </el-row>
@@ -34,8 +34,8 @@
               </el-col>
               <el-col :span="6">
                   <p style="font-size:20px;"><b> Votes : {{question.answers[0].upVotes.length - question.answers[0].downVotes.length}}</b></p>
-                  <el-button v-if="statusLogin" :plain="true" type="success" @click="voteAnswer('up',answer._id)">Upvote</el-button>
-                  <el-button v-if="statusLogin" :plain="true" type="warning" @click="voteAnswer('down',answer._id)">Downvote</el-button>
+                  <el-button v-if="status" :plain="true" type="success" @click="voteAnswer('up',answer._id)">Upvote</el-button>
+                  <el-button v-if="status" :plain="true" type="warning" @click="voteAnswer('down',answer._id)">Downvote</el-button>
               </el-col>
             </el-row>
           </el-tab-pane>
@@ -49,8 +49,8 @@
                 </el-col>
                 <el-col :span="6">
                   <p style="font-size:20px;"><b> Votes : {{answer.upVotes.length - answer.downVotes.length}}</b></p>
-                  <el-button v-if="statusLogin" :plain="true" type="success" @click="voteAnswer('up',answer._id)">Upvote</el-button>
-                  <el-button v-if="statusLogin" :plain="true" type="warning" @click="voteAnswer('down',answer._id)">Downvote</el-button>
+                  <el-button v-if="status" :plain="true" type="success" @click="voteAnswer('up',answer._id)">Upvote</el-button>
+                  <el-button v-if="status" :plain="true" type="warning" @click="voteAnswer('down',answer._id)">Downvote</el-button>
                 </el-col>
               </el-row>
 
@@ -63,8 +63,8 @@
             <el-form-item label="" prop="content">
               <el-input type="textarea" :autosize="{ minRows: 6, maxRows: 10}" auto-complete="off" v-model="answer"></el-input>
             </el-form-item>
-            <el-button v-if="statusLogin == true" style="float:right;" type="primary" @click="postAnswer()">Post Your Answer</el-button>
-            <router-link to="/login"><el-button v-if="statusLogin == false" style="float:right;" type="primary">Post Your Answer</el-button></router-link>
+            <el-button v-if="status == true" style="float:right;" type="primary" @click="postAnswer()">Post Your Answer</el-button>
+            <router-link to="/login"><el-button v-if="status == false" style="float:right;" type="primary">Post Your Answer</el-button></router-link>
           </el-form>
 
         </el-tabs>
@@ -78,9 +78,9 @@
 import axios from 'axios'
 
 export default {
-  props:['statusLogin'],
   data() {
     return {
+      status: this.$store.state.statusLogin,
       question: null,
       answer: '',
       id: this.$route.params.id,

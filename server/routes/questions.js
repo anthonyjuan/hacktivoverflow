@@ -6,6 +6,11 @@ let routes = require('express').Router(),
 //get all
 routes.get('/',controlQ.getQuestion)
 
+
+//getQuestion by id user
+routes.get('/:iduser/panel', controlQ.getAllQuestionByUserId)
+
+
 //get one
 routes.get('/:id',controlQ.getOneQuestion)
 

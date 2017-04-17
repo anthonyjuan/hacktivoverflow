@@ -19,6 +19,7 @@
 
 <script>
 import axios from 'axios'
+import { mapMutations } from 'vuex'
 export default {
   data(){
     return {
@@ -29,6 +30,7 @@ export default {
     }
   },
   methods: {
+
     signIn() {
       var self = this;
       axios.post('http://localhost:3000/login', {

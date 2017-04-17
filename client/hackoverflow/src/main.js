@@ -6,6 +6,7 @@ import ElementUI from 'element-ui'
 // import {Table, TableColumn} from 'element-ui'
 import 'element-ui/lib/theme-default/index.css'
 import router from './router'
+import store from './vuex'
 
 // Vue.use(Table)
 // Vue.use(TableColumn)
@@ -14,6 +15,7 @@ Vue.use(ElementUI)
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
+  store,
   router,
   template: '<App/>',
   components: { App }

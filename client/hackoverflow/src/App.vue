@@ -1,32 +1,34 @@
 <template>
   <div id="app">
 
-    <app-nav :statusLogin="statusLogin"></app-nav>
-    <router-view :statusLogin="statusLogin" class="tampil-router"></router-view>
+    <app-nav></app-nav>
+    <router-view class="tampil-router"></router-view>
 
   </div>
 </template>
 
 <script>
 import AppNav from './components/AppNav';
-
+import { mapMutations } from 'vuex'
 
 export default {
   data() {
     return{
-      statusLogin: false
+
     }
   },
   components: {
     AppNav
   },
+  methods: {
+    ...mapMutations([
+      'ifLogin'
+    ])
+  },
   mounted() {
-    if(window.localStorage.getItem('token')) {
-      this.statusLogin = true
-    } else {
-      this.statusLogin = false
-    }
+    this.ifLogin()
   }
+
 }
 </script>
 

@@ -1,6 +1,6 @@
 <template lang="html">
   <div class="">
-    <el-row v-if="statusLogin == false">
+    <el-row v-if="this.$store.state.statusLogin == false">
       <el-col :span="20" :offset="2" >
         <el-alert
           type="info"
@@ -20,8 +20,8 @@
     <el-row >
       <el-col :span="16" :offset="2" >
           <h1>Top Question</h1>
-          <router-link to="/login"><el-button type="primary" v-if="statusLogin == false">Ask Question</el-button></router-link>
-          <router-link to="/questions/ask"><el-button type="primary" v-if="statusLogin == true">Ask Question</el-button></router-link>
+          <router-link to="/login"><el-button type="primary" v-if="this.$store.state.statusLogin == false">Ask Question</el-button></router-link>
+          <router-link to="/questions/ask"><el-button type="primary" v-if="this.$store.state.statusLogin == true">Ask Question</el-button></router-link>
           <br>
           <br>
           <el-card class="box-card" v-for="question in questions" :key="question._id">
@@ -46,15 +46,18 @@
 
 <script>
 import axios from 'axios'
-
+import { mapMutations } from 'vuex'
 export default {
-  props: ['statusLogin'],
+
   data() {
     return {
       questions: []
     }
   },
   methods: {
+    ...mapMutations([
+      'getOneUser'
+    ]),
     getQuestion() {
       let self = this
       axios.get('http://localhost:3000/questions/')
@@ -76,6 +79,8 @@ export default {
   },
   mounted() {
     this.getQuestion()
+    this.getOneUser()
+
   }
 }
 </script>

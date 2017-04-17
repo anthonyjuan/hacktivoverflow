@@ -174,6 +174,16 @@ module.exports = {
         res.send({success:true, msg:err})
       }
     })
+  },
+  getAllQuestionByUserId: function(req, res) {
+    question.find({user:req.params.iduser}, function(err, results) {
+      if(!err) {
+        res.send({success: true, data:results})
+      } else {
+        res.send({success:false, data:err})
+      }
+
+    })
   }
 
 };

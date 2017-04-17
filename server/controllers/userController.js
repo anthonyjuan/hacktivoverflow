@@ -11,6 +11,15 @@ module.exports = {
       }
     })
   },
+  getOneUser: function(req, res) {
+    User.findOne({'_id':req.params.id}, function(err, user) {
+      if(!err) {
+        res.send({success:true, data:user.username })
+      } else {
+        res.send({success:false, msg:'user not found'});
+      }
+    })
+  },
   login: function(req, res) {
     User.findOne({'username':req.body.username}, function(err,user) {
       if(err || user == null ) {

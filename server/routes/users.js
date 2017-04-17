@@ -3,6 +3,7 @@ let routes = require('express').Router(),
 
 //get user
 routes.get('/', control.getUser)
+routes.get('/:id', control.getOneUser)
 
 //post user
 routes.post('/', control.postUser)
