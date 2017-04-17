@@ -55,9 +55,6 @@ export default {
     }
   },
   methods: {
-    ...mapMutations([
-      'getOneUser'
-    ]),
     getQuestion() {
       let self = this
       axios.get('http://localhost:3000/questions/')
@@ -70,7 +67,7 @@ export default {
                obj.answers = x.answers.length
                self.questions.push(obj)
              })
-             console.log(self.questions);
+            //  console.log(self.questions);
            })
            .catch(function(err) {
              console.log(err);
@@ -79,7 +76,7 @@ export default {
   },
   mounted() {
     this.getQuestion()
-    this.getOneUser()
+    // this.getOneUser()
 
   }
 }

@@ -6,8 +6,8 @@ import LoginPage from '@/components/LoginPage'
 import SignUp from '@/components/SignUp'
 import AskForm from '@/components/AskForm'
 import ProductCatalog from '@/components/ProductCatalog'
-import ManageProducts from '@/components/ManageProducts'
 import QuestionDetail from '@/components/QuestionDetail'
+import Panel from '@/components/Panel'
 
 Vue.use(Router)
 
@@ -21,10 +21,6 @@ export default new Router({
     {
       path: '/questions',
       component: QuestionList
-    },
-    {
-      path: '/manage-products',
-      component: ManageProducts
     },
     {
       path: '/login',
@@ -41,6 +37,11 @@ export default new Router({
     {
       path: '/questions/:id',
       component: QuestionDetail,
+      props: true
+    },
+    {
+      path: '/users/:id',
+      component: Panel,
       props: true
     }
   ]

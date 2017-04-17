@@ -22,11 +22,13 @@ export default {
   },
   methods: {
     ...mapMutations([
-      'ifLogin'
+      'ifLogin',
+      'getOneUser'
     ])
   },
   mounted() {
     this.ifLogin()
+    this.getOneUser()
   }
 
 }

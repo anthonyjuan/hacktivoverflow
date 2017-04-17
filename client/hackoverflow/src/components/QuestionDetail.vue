@@ -15,8 +15,8 @@
               </el-col>
               <el-col :span="6">
                 <p><b style="font-size:20px">Votes: {{ upVote - downVote }}</b></p>
-                <el-button v-if="status" :plain="true" type="success" @click="voteQuestion('up')">Upvote</el-button>
-                <el-button v-if="status" :plain="true" type="warning" @click="voteQuestion('down')">Downvote</el-button>
+                <el-button v-if="this.$store.state.statusLogin" :plain="true" type="success" @click="voteQuestion('up')">Upvote</el-button>
+                <el-button v-if="this.$store.state.statusLogin" :plain="true" type="warning" @click="voteQuestion('down')">Downvote</el-button>
               </el-col>
 
             </el-row>
@@ -117,7 +117,18 @@ export default {
         .then(function(res) {
           if(res.data.success) {
             let resultAnswers = res.data.msg.answers
-            self.answers.push(resultAnswers[resultAnswers.length-1])
+            let newAnswer = {
+              createdAt: resultAnswers[resultAnswers.length-1].createdAt,
+              downVotes: resultAnswers[resultAnswers.length-1].downVotes,
+              upVotes: resultAnswers[resultAnswers.length-1].upVotes,
+              post: resultAnswers[resultAnswers.length-1].post,
+              user: {
+                username: self.$store.state.username
+              }
+
+            }
+
+            self.answers.push(newAnswer)
           }
 
         })

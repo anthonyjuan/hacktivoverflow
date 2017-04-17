@@ -29,7 +29,7 @@ module.exports = {
   deleteQuestion: function(req, res) {
     question.findByIdAndRemove(req.params.id, function(err){
       if(!err) {
-        res.send('Delete Sukses!')
+        res.send({success: true, msg:'Delete Sukses!'})
       } else {
         res.send(err)
       }
